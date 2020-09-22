@@ -33,29 +33,34 @@ public class Monitoramento {
 		}
 	}
 	
+	private boolean vadilarUnidade(boolean video, boolean termometro, boolean co2, boolean ch4, Unidade un){
+		if((video && un.isVideo()) || (termometro && un.isTermometro()) || (co2 && un.isCo2()) || (ch4 && un.isCh4())) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public String monitorar(double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
 		
 		double menor = this.getUnidades()[0].distancia(abcissa, ordenada);
 		int id = this.getUnidades()[0].getId();
-		
-		
-		for(int i = 0; i<this.getUnidades().length; i++) {
-			if((video && this.getUnidades()[i].isVideo()) || (termometro && this.getUnidades()[i].isTermometro()) || (co2 && this.getUnidades()[i].isCo2()) || (ch4 && this.getUnidades()[i].isCh4())) {
-				if(this.getUnidades()[i].distancia(abcissa, ordenada) < menor) {
-					menor = this.getUnidades()[i].distancia(abcissa, ordenada);
-					id = this.getUnidades()[i].getId();
+				
+		for(Unidade unidade : this.getUnidades()) {
+			if(vadilarUnidade(video, termometro, co2, ch4, unidade)) {
+				if(unidade.distancia(abcissa, ordenada) < menor) {
+					menor = unidade.distancia(abcissa, ordenada);
+					id = unidade.getId();
 				}
 			}else if(!video && !termometro && !co2 && !ch4){
 				return "Escolha no minimo 1 ferramenta de monitoramento";
-			}else {
-				return "Sem Unidades disponiveis para o Monitoramento";
 			}
 		}
 			
 			atualizarUnidade(abcissa, ordenada, id);
 	
 		
-		return "Unidade: " + id + "(id), atualizou sua localização para y = " + abcissa + " x = " + ordenada + ".";
+		return "Unidade: " + id + " (id), atualizou sua localização";
 	}
 	
 }
