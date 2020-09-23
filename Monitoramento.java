@@ -15,14 +15,7 @@ public class Monitoramento {
 	protected void setUnidades(Unidade[] unidades) {
 		this.unidades = unidades;
 	}
-	
-
-	protected Unidade validarFerramentas(boolean video, boolean termometro, boolean co2, boolean ch4) {
 		
-
-		return null;
-	}
-	
 	private void atualizarUnidade(double abcissa, double ordenada, int id) {
 		
 		for(Unidade un : this.getUnidades()) {
