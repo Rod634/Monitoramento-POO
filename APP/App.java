@@ -1,4 +1,6 @@
-package MONITORAMENTO;
+package MONITORAMENTO.APP;
+
+import MONITORAMENTO.LOGICA.Monitoramento;
 
 public class App {
 
@@ -19,6 +21,7 @@ public class App {
 		monitorar.addUnidadeManhattan(4, 26, -13, false, false, false, true);
 		
 		System.out.println(monitorar.monitorar(abcissa, ordenada, video, termometro, co2, ch4));
+		
 	
 	}
 

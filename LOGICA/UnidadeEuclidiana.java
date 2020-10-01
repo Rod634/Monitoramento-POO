@@ -1,4 +1,4 @@
-package MONITORAMENTO;
+package MONITORAMENTO.LOGICA;
 
 public class UnidadeEuclidiana extends Unidade{
 

@@ -1,4 +1,4 @@
-package MONITORAMENTO;
+package MONITORAMENTO.LOGICA;
 
 public abstract class Unidade {
 	
@@ -22,7 +22,7 @@ public abstract class Unidade {
 	
 	protected abstract double distancia(double abcissa, double ordenada);
 	
-	protected int getId() {
+	public int getId() {
 		return id;
 	}
 	
