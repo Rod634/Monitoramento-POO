@@ -1,18 +1,33 @@
 package MONITORAMENTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Monitoramento {
 
-	Unidade[] unidades;
+	List<Unidade> unidades = new ArrayList<Unidade>();
 
-	public Monitoramento(Unidade[] unidades) {
+	public Monitoramento(List<Unidade> unidades) {
 		setUnidades(unidades); 
 	}
 	
-	protected Unidade[] getUnidades() {
+	public Monitoramento() {
+		
+	}
+	
+	public void addUnidadeEuclidiana(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
+		this.unidades.add(new UnidadeEuclidiana(id, abcissa, ordenada, video, termometro, co2, ch4));
+	}
+	
+	public void addUnidadeManhattan(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
+		this.unidades.add(new UnidadeManhattan(id, abcissa, ordenada, video, termometro, co2, ch4));
+	}
+	
+	protected List<Unidade> getUnidades() {
 		return unidades;
 	}
 
-	protected void setUnidades(Unidade[] unidades) {
+	protected void setUnidades(List<Unidade> unidades) {
 		this.unidades = unidades;
 	}
 		
@@ -36,12 +51,12 @@ public class Monitoramento {
 	
 	public String monitorar(double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
 		
-		double menor = this.getUnidades()[0].distancia(abcissa, ordenada);
-		int id = this.getUnidades()[0].getId();
+		double menor = 	unidades.get(0).distancia(abcissa, ordenada);
+		int id = 0;
 				
 		for(Unidade unidade : this.getUnidades()) {
 			if(vadilarUnidade(video, termometro, co2, ch4, unidade)) {
-				if(unidade.distancia(abcissa, ordenada) < menor) {
+				if(unidade.distancia(abcissa, ordenada) <= menor) {
 					menor = unidade.distancia(abcissa, ordenada);
 					id = unidade.getId();
 				}
@@ -50,10 +65,13 @@ public class Monitoramento {
 			}
 		}
 			
+
+		if(id == 0) {
+			return "nenhuma unidade disponivel com a configuração desejada";
+		}else {
 			atualizarUnidade(abcissa, ordenada, id);
-	
-		
-		return "Unidade: " + id + " (id), atualizou sua localização";
+			return "Unidade: " + id + " (id), atualizou sua localização";
+		}
 	}
 	
 }
