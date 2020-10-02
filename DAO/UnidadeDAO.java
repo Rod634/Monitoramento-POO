@@ -3,15 +3,16 @@ package MONITORAMENTO.DAO;
 import java.util.List;
 
 import MONITORAMENTO.LOGICA.Unidade;
+import MONITORAMENTO.LOGICA.UnidadeEuclidiana;
 
 public interface UnidadeDAO {
 
-	void salvar(Unidade ue);
+	void salvar(Unidade ue) throws Exception;
 
-	List<Unidade> getUns();
+	List<Unidade> getUns() throws Exception;
 
-	Unidade getUnById(int i);
+	Unidade getUnById(int i) throws Exception;
 
-	void atualizar(Unidade un);
+	void atualizar(Unidade un) throws Exception;
 
 }

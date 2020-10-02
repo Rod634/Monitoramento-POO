@@ -1,0 +1,13 @@
+CREATE TABLE Unidades(ID INT PRIMARY KEY, 
+                  NAME VARCHAR(255),
+				  abcissa DOUBLE,
+				  ordenada DOUBLE,
+        		  video BOOLEAN,
+				  termometro BOOLEAN,
+			      co2 BOOLEAN,
+			  	  ch4 BOOLEAN,
+			  	  status BOOLEAN);
+			  	  
+			  	  
+INSERT INTO Unidades(ID, NAME, abcissa, ordenada, video, termometro, co2, ch4, status) values
+(?, ?, ?, ?, ?, ?, ?, ?, ?)

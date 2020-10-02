@@ -30,7 +30,7 @@ public abstract class Unidade {
 		this.id = id;
 	}
 
-	protected double getAbcissa() {
+	public double getAbcissa() {
 		return abcissa;
 	}
 
@@ -38,7 +38,7 @@ public abstract class Unidade {
 		this.abcissa = abcissa;
 	}
 
-	protected double getOrdenada() {
+	public double getOrdenada() {
 		return ordenada;
 	}
 
@@ -46,7 +46,7 @@ public abstract class Unidade {
 		this.ordenada = ordenada;
 	}
 
-	protected boolean isVideo() {
+	public boolean isVideo() {
 		return video;
 	}
 
@@ -54,7 +54,7 @@ public abstract class Unidade {
 		this.video = video;
 	}
 
-	protected boolean isTermometro() {
+	public boolean isTermometro() {
 		return termometro;
 	}
 
@@ -62,7 +62,7 @@ public abstract class Unidade {
 		this.termometro = termometro;
 	}
 
-	protected boolean isCo2() {
+	public boolean isCo2() {
 		return co2;
 	}
 
@@ -70,7 +70,7 @@ public abstract class Unidade {
 		this.co2 = co2;
 	}
 
-	protected boolean isCh4() {
+	public boolean isCh4() {
 		return ch4;
 	}
 

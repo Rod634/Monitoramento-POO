@@ -1,30 +1,31 @@
 package MONITORAMENTO.LOGICA;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import MONITORAMENTO.DAO.MemUnidade;
+import MONITORAMENTO.DAO.SqlUnidade;
 import MONITORAMENTO.DAO.UnidadeDAO;
 
 public class Monitoramento {
 	
-	private UnidadeDAO unidadeDAO = new MemUnidade();
+	private UnidadeDAO unidadeDAO;
 
-	public Monitoramento() {
-		
+	public Monitoramento() throws SQLException {
+		unidadeDAO = new SqlUnidade();
 	}
 	
-	public void addUnidadeEuclidiana(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
+	public void addUnidadeEuclidiana(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
 		UnidadeEuclidiana ue = new UnidadeEuclidiana(id, abcissa, ordenada, video, termometro, co2, ch4);
 		this.addUn(ue);
 	}
 	
-	public void addUnidadeManhattan(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
+	public void addUnidadeManhattan(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
 		UnidadeManhattan um = new UnidadeManhattan(id, abcissa, ordenada, video, termometro, co2, ch4);
 		this.addUn(um);
 	}
 	
-	private void addUn(Unidade ue) {
+	private void addUn(Unidade ue) throws Exception {
 		this.unidadeDAO.salvar(ue);
 	}
 	
@@ -36,7 +37,7 @@ public class Monitoramento {
 		}
 	}
 	
-	public String monitorar(double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) {
+	public String monitorar(double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
 		
 		Unidade un = null;
 		

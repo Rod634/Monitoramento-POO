@@ -4,7 +4,7 @@ import MONITORAMENTO.LOGICA.Monitoramento;
 
 public class App {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		double abcissa = 10;
 		double ordenada = 27;

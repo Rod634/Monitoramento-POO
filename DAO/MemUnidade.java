@@ -19,22 +19,22 @@ public class MemUnidade implements UnidadeDAO{
 	
 
 	@Override
-	public void salvar(Unidade ue) {
+	public void salvar(Unidade ue) throws Exception{
 		this.unidades.add(ue);
 	}
 
 	@Override
-	public Unidade getUnById(int i) {
+	public Unidade getUnById(int i) throws Exception{
 		return this.unidades.get(i);
 	}
 
 	@Override
-	public List<Unidade> getUns() {
+	public List<Unidade> getUns() throws Exception{
 		return this.getUnidades();
 	}
 
 	@Override
-	public void atualizar(Unidade un) {
+	public void atualizar(Unidade un) throws Exception{
 		for(Unidade ue : this.getUnidades()) {
 			if(ue.getId() == un.getId()) {
 				ue = un;
