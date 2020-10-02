@@ -12,12 +12,12 @@ import MONITORAMENTO.LOGICA.UnidadeManhattan;
 
 public class SqlUnidade implements UnidadeDAO{
 
-	private static final String URI = "jdbc:h2:~/color";
+	private static final String URI = "jdbc:h2:~/test";
 	
 	private static final String Euclidiana = "Euclidiana";
 	private static final String Manhattan = "Manhattan";
 	
-	private static String INSERT_SQL = "INSERT INTO Unidades(ID, NAME, abcissa, ordenada, video, termometro, co2, ch4, status) values\r\n" + 
+	private static String INSERT_SQL = "INSERT INTO UNIDADES(ID, NAME, abcissa, ordenada, video, termometro, co2, ch4, status) values\r\n" + 
 									   "(?, ?, ?, ?, ?, ?, ?, ?, ?)\r\n" + 
 									   "";
 
