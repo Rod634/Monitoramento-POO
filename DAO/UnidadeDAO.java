@@ -3,7 +3,6 @@ package MONITORAMENTO.DAO;
 import java.util.List;
 
 import MONITORAMENTO.LOGICA.Unidade;
-import MONITORAMENTO.LOGICA.UnidadeEuclidiana;
 
 public interface UnidadeDAO {
 

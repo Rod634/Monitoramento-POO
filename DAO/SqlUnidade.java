@@ -3,7 +3,10 @@ package MONITORAMENTO.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import MONITORAMENTO.LOGICA.Unidade;
@@ -20,13 +23,15 @@ public class SqlUnidade implements UnidadeDAO{
 	private static String INSERT_SQL = "INSERT INTO UNIDADES(ID, NAME, abcissa, ordenada, video, termometro, co2, ch4, status) values\r\n" + 
 									   "(?, ?, ?, ?, ?, ?, ?, ?, ?)\r\n" + 
 									   "";
-
+	
+	private static String UPDATE_SQL = "UPDATE UNIDADES SET ABCISSA = ?, ORDENADA = ? WHERE ID = ?";
+	
 	public SqlUnidade() throws SQLException {
 		DriverManager.registerDriver(new org.h2.Driver());
 	}
 	
 	public Connection getConnection() throws SQLException {
-		Connection conect = DriverManager.getConnection(URI);
+		Connection conect = DriverManager.getConnection(URI, "sa","");
 		return conect;
 	}
 	
@@ -53,24 +58,59 @@ public class SqlUnidade implements UnidadeDAO{
 		stmt.executeUpdate();
 	}
 
-	
-
 	@Override
 	public List<Unidade> getUns() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Unidade> uns = new ArrayList<Unidade>();
+		
+		Statement stmt = this.getConnection().createStatement();
+		boolean retorno = stmt.execute("select * from UNIDADES");
+		if(retorno == true) {
+			ResultSet resultado = stmt.getResultSet();
+			while(resultado.next()) {
+				
+				int id = resultado.getInt("ID");
+				String nome = resultado.getString("NAME");
+				double abcissa = resultado.getDouble("ABCISSA");
+				double ordenada = resultado.getDouble("ORDENADA");
+				boolean video = resultado.getBoolean("VIDEO");
+				boolean termometro = resultado.getBoolean("TERMOMETRO");
+				boolean co2 = resultado.getBoolean("CO2");
+				boolean ch4 = resultado.getBoolean("CH4");
+				boolean status = resultado.getBoolean("STATUS");
+				
+				if(nome.matches("Euclidiana") && status == true) {
+					uns.add(new UnidadeEuclidiana(id, abcissa, ordenada, video, termometro, co2, ch4));
+				}else if(nome.matches("Manhattan") && status == true) {
+					uns.add(new UnidadeManhattan(id, abcissa, ordenada, video, termometro, co2, ch4));
+				}
+			}
+		}
+		return uns;
 	}
 
 	@Override
-	public Unidade getUnById(int i) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Unidade getUnById(int id) throws Exception {
+		List<Unidade> unidades = this.getUns();
+		Unidade ue = null;
+		for(Unidade un : unidades) {
+			if(un.getId() == ue.getId()) {
+				ue = un;
+			}else {
+				continue;
+			}
+		}
+		
+		return ue;
 	}
 
 	@Override
 	public void atualizar(Unidade un) throws Exception {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement stmt = this.getConnection().prepareStatement(UPDATE_SQL);
+		stmt.setDouble(1, un.getAbcissa());
+		stmt.setDouble(2, un.getOrdenada());
+		stmt.setInt(3, un.getId());
+		stmt.executeUpdate();
 	}
 
 }

@@ -24,8 +24,14 @@ public class MemUnidade implements UnidadeDAO{
 	}
 
 	@Override
-	public Unidade getUnById(int i) throws Exception{
-		return this.unidades.get(i);
+	public Unidade getUnById(int id) throws Exception{
+		Unidade ue = null;
+		for(Unidade un : this.getUnidades()) {
+			if(un.getId() == id) {
+				ue = un;
+			}
+		}
+		return ue;
 	}
 
 	@Override
