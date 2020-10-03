@@ -5,7 +5,6 @@ public class UnidadeDTO {
 	int id;
 	double abcissa;
 	double ordenada;
-	double distancia;
 	
 	public UnidadeDTO(int id, double abcissa, double ordenada) {
 		setId(id);
@@ -13,7 +12,7 @@ public class UnidadeDTO {
 		setOrdenada(ordenada);
 	}
 	
-	protected int getId() {
+	public int getId() {
 		return id;
 	}
 	
@@ -21,16 +20,8 @@ public class UnidadeDTO {
 		this.id = id;
 	}
 
-	protected double getAbcissa() {
+	public double getAbcissa() {
 		return abcissa;
-	}
-
-	private void setdistancia(double distancia) {
-		this.distancia = distancia;
-	}
-	
-	protected double getdistancia() {
-		return distancia;
 	}
 
 	private void setAbcissa(double abcissa) {
@@ -38,7 +29,7 @@ public class UnidadeDTO {
 	}
 
 
-	protected double getOrdenada() {
+	public double getOrdenada() {
 		return ordenada;
 	}
 

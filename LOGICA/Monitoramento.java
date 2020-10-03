@@ -4,15 +4,17 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+import MONITORAMENTO.DAO.MemUnidade;
 import MONITORAMENTO.DAO.SqlUnidade;
 import MONITORAMENTO.DAO.UnidadeDAO;
+import MONITORAMENTO.DTO.UnidadeDTO;
 
 public class Monitoramento {
 	
 	private UnidadeDAO unidadeDAO;
 
 	public Monitoramento() throws SQLException {
-		unidadeDAO = new SqlUnidade();
+		unidadeDAO = new MemUnidade();
 	}
 	
 	public void addUnidadeEuclidiana(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
@@ -42,12 +44,14 @@ public class Monitoramento {
 		Unidade un = null;
 		
 		List<Unidade> unities = this.unidadeDAO.getUns();
-		Collections.sort(unities, new OrderUnidadeByDistance(this.unidadeDAO.getUnById(0), abcissa, ordenada));
+		Collections.sort(unities, new OrderUnidadeByDistance(unities.get(0), abcissa, ordenada));
 		
 
 		for(Unidade unidade : unities) {
 			if(vadilarUnidade(video, termometro, co2, ch4, unidade)) {
 				un = unidade;
+				un.setAbcissa(abcissa);
+				un.setOrdenada(ordenada);
 				this.unidadeDAO.atualizar(un);
 				break;
 			}else if(!video && !termometro && !co2 && !ch4){
@@ -58,7 +62,9 @@ public class Monitoramento {
 		if(un == null) {
 			return "nenhuma unidade disponivel com a configuração desejada";
 		}else {
-			return "Unidade: " + un.getId() + " (id), atualizou sua localização";
+			UnidadeDTO unDTO = new UnidadeDTO(un.getId(), un.getAbcissa(), un.getOrdenada());
+			return "Unidade: " + unDTO.getId() + " (id), atualizou sua localização\n"
+					+ "Para y: " + unDTO.getAbcissa() + " x: " + unDTO.getOrdenada();
 		}
 	}
 	
