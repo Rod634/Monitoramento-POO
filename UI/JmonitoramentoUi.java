@@ -2,6 +2,7 @@ package MONITORAMENTO.UI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,7 +12,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import MONITORAMENTO.LOGICA.Monitoramento;
+import MONITORAMENTO.LOGICA.UnidadeLogica;
 
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
@@ -22,49 +23,61 @@ import java.awt.SystemColor;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
-public class Ui implements ActionListener {
+public class JmonitoramentoUi implements ActionListener, MonitoramentoUi {
 
 	private JFrame frame;
 	private JTextField idTextField;
 	private JTextField abcisssaTextField;
 	private JTextField ordenadaTextField;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private ButtonGroup buttonGroup;
 	private JTable table;
 	private JTextField abcissaAreaTxt;
 	private JTextField ordenadaAreaTxt;
-	private JCheckBox videoCheck = new JCheckBox("Video");
-	private JButton btnCriarUn = new JButton("Criar Unidade");
-	private	JCheckBox termometroCheck = new JCheckBox("Termometro");
-	private JCheckBox co2Check = new JCheckBox("Co2");
-	private JCheckBox chCheck = new JCheckBox("Ch4");
-	private JRadioButton euclidianaRadio = new JRadioButton("Euclidiana");
-	private JRadioButton manhattanRadio = new JRadioButton("Manhattan");
-	private JLabel ordenadaLbl_1 = new JLabel("Ordenada");
-	private JCheckBox videoAreaCheck = new JCheckBox("Video");
-	private JCheckBox termometroAreaCheck = new JCheckBox("Termometro");
-	private JCheckBox co2AreaCheck = new JCheckBox("Co2");
-	private JCheckBox chAreaCheck = new JCheckBox("Ch4");
-	private JButton btnMonitorar = new JButton("Monitorar");
+	private JCheckBox videoCheck;
+	private JButton btnCriarUn;
+	private	JCheckBox termometroCheck;
+	private JCheckBox co2Check;
+	private JCheckBox chCheck;
+	private JRadioButton euclidianaRadio;
+	private JRadioButton manhattanRadio;
+	private JLabel ordenadaLbl_1;
+	private JCheckBox videoAreaCheck;
+	private JCheckBox termometroAreaCheck;
+	private JCheckBox co2AreaCheck;
+	private JCheckBox chAreaCheck;
+	private JButton btnMonitorar;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		Ui window = new Ui();
-		window.frame.setVisible(true);
+	private UnidadeLogica mn;
+			
+	@Override
+	public void run() throws Exception {
+		this.frame.setVisible(true);
 	}
 	
-
-	/**
-	 * Create the application.
-	 */
-	public Ui() {
+	public void setLogica(UnidadeLogica logica) throws Exception {
+		this.instace();
 		initialize();
+		this.mn = logica;
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
+	private void instace() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	  this.buttonGroup = new ButtonGroup();
+	  this.videoCheck = new JCheckBox("Video");
+	  this.btnCriarUn = new JButton("Criar Unidade");
+	  this.termometroCheck = new JCheckBox("Termometro");
+	  this.co2Check = new JCheckBox("Co2");
+	  this.chCheck = new JCheckBox("Ch4");
+	  this.euclidianaRadio = new JRadioButton("Euclidiana");
+	  this.manhattanRadio = new JRadioButton("Manhattan");
+	  this.ordenadaLbl_1 = new JLabel("Ordenada");
+	  this.videoAreaCheck = new JCheckBox("Video");
+	  this.termometroAreaCheck = new JCheckBox("Termometro");
+	  this.co2AreaCheck = new JCheckBox("Co2");
+	  this.chAreaCheck = new JCheckBox("Ch4");
+	  this.btnMonitorar = new JButton("Monitorar");
+	}
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 467, 569);
@@ -213,43 +226,59 @@ public class Ui implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
-		try {
-		
-			Monitoramento mn = new Monitoramento(true);
-			
 			if(event.getSource().equals(this.btnCriarUn)) {
-				int id = Integer.valueOf(this.idTextField.getText());
-				double abcissa = Double.valueOf(this.abcisssaTextField.getText());
-				double ordenada = Double.valueOf(this.ordenadaTextField.getText());
-				boolean video = this.videoCheck.isSelected();
-				boolean termometro = this.termometroCheck.isSelected();
-				boolean co2 = this.co2Check.isSelected();
-				boolean ch4 = this.chCheck.isSelected();
-				boolean euclidiana = this.euclidianaRadio.isSelected();
-				boolean manhattan = this.manhattanRadio.isSelected();
-				
-				if(euclidiana) {
-					mn.addUnidadeEuclidiana(id, abcissa, ordenada, video, termometro, co2, ch4);
-					JOptionPane.showMessageDialog(null, "Unidade Euclidiana Criada");
-				}else if(manhattan) {
-					mn.addUnidadeManhattan(id, abcissa, ordenada, video, termometro, co2, ch4);
-					JOptionPane.showMessageDialog(null, "Unidade Manhattan Criada");
-				}
+				criarUn();
 			}else if(event.getSource().equals(this.btnMonitorar)) {
-				double abcissa = Double.valueOf(this.abcissaAreaTxt.getText());
-				double ordenada = Double.valueOf(this.ordenadaAreaTxt.getText());
-				boolean video = this.videoAreaCheck.isSelected();
-				boolean termometro = this.termometroAreaCheck.isSelected();
-				boolean co2 = this.co2AreaCheck.isSelected();
-				boolean ch4 = this.chAreaCheck.isSelected();
-				
-				String message = mn.monitorar(abcissa, ordenada, video, termometro, co2, ch4);
-				JOptionPane.showMessageDialog(null, message);
-			
+				monitorarUns();
 			}
 		
-		} catch (Exception e) {
+	}
+
+	private void monitorarUns() {
+		
+		boolean video = this.videoAreaCheck.isSelected();
+		boolean termometro = this.termometroAreaCheck.isSelected();
+		boolean co2 = this.co2AreaCheck.isSelected();
+		boolean ch4 = this.chAreaCheck.isSelected();
+		
+		try {
+			double abcissa = Double.valueOf(this.abcissaAreaTxt.getText());
+			double ordenada = Double.valueOf(this.ordenadaAreaTxt.getText());
+			String message = this.mn.monitorar(abcissa, ordenada, video, termometro, co2, ch4);
+			JOptionPane.showMessageDialog(null, message);	
+		}catch(NumberFormatException n) {
+			JOptionPane.showMessageDialog(null, "numero invalido", "insira um numero valido", JOptionPane.ERROR_MESSAGE);
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+	}
+
+	private void criarUn() {
+		
+		boolean video = this.videoCheck.isSelected();
+		boolean termometro = this.termometroCheck.isSelected();
+		boolean co2 = this.co2Check.isSelected();
+		boolean ch4 = this.chCheck.isSelected();
+		boolean euclidiana = this.euclidianaRadio.isSelected();
+		boolean manhattan = this.manhattanRadio.isSelected();
+		
+		try {
+			int id = Integer.valueOf(this.idTextField.getText());
+			double abcissa = Double.valueOf(this.abcisssaTextField.getText());
+			double ordenada = Double.valueOf(this.ordenadaTextField.getText());
+			
+			if(euclidiana) {
+				this.mn.addUnidadeEuclidiana(id, abcissa, ordenada, video, termometro, co2, ch4);
+				JOptionPane.showMessageDialog(null, "Unidade Euclidiana Criada");
+			}else if(manhattan) {
+				this.mn.addUnidadeManhattan(id, abcissa, ordenada, video, termometro, co2, ch4);
+				JOptionPane.showMessageDialog(null, "Unidade Manhattan Criada");
+			}
+		}catch(NumberFormatException n) {
+			JOptionPane.showMessageDialog(null, "numero invalido", "insira um numero valido", JOptionPane.ERROR_MESSAGE);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package MONITORAMENTO.DAO;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +20,7 @@ public class SqlUnidade implements UnidadeDAO{
 	
 	private static final String Euclidiana = "Euclidiana";
 	private static final String Manhattan = "Manhattan";
+	private static final String DRIVE = "org.h2.Driver";
 	
 	private static String INSERT_SQL = "INSERT INTO UNIDADES(ID, NAME, abcissa, ordenada, video, termometro, co2, ch4, status) values\r\n" + 
 									   "(?, ?, ?, ?, ?, ?, ?, ?, ?)\r\n" + 
@@ -28,8 +30,8 @@ public class SqlUnidade implements UnidadeDAO{
 	
 	private static String GetAll = "select * from UNIDADES";
 	
-	public SqlUnidade() throws SQLException {
-		DriverManager.registerDriver(new org.h2.Driver());
+	public SqlUnidade() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		DriverManager.registerDriver((Driver) Class.forName(SqlUnidade.DRIVE).newInstance());
 	}
 	
 	public Connection getConnection() throws SQLException {

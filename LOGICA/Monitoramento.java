@@ -1,20 +1,21 @@
 package MONITORAMENTO.LOGICA;
 
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import MONITORAMENTO.DAO.MemUnidade;
-import MONITORAMENTO.DAO.SqlUnidade;
 import MONITORAMENTO.DAO.UnidadeDAO;
 import MONITORAMENTO.DTO.UnidadeDTO;
 
-public class Monitoramento {
+public class Monitoramento implements UnidadeLogica {
 	
 	private UnidadeDAO unidadeDAO;
 
-	public Monitoramento(boolean mem) throws SQLException, ClassNotFoundException {
-		unidadeDAO = mem == true ? new MemUnidade() : new SqlUnidade();
+	@Override
+	public void setPersistencia(UnidadeDAO persistencia) throws Exception {
+		this.unidadeDAO = persistencia;
+	}
+
+	public Monitoramento() {		
 	}
 	
 	public void addUnidadeEuclidiana(int id, double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
@@ -42,30 +43,33 @@ public class Monitoramento {
 	public String monitorar(double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
 		
 		Unidade un = null;
-		
-		List<Unidade> unities = this.unidadeDAO.getUns();
-		Collections.sort(unities, new OrderUnidadeByDistance(unities.get(0), abcissa, ordenada));
-		
-
-		for(Unidade unidade : unities) {
-			if(vadilarUnidade(video, termometro, co2, ch4, unidade)) {
-				un = unidade;
-				un.setAbcissa(abcissa);
-				un.setOrdenada(ordenada);
-				this.unidadeDAO.atualizar(un);
-				break;
-			}else if(!video && !termometro && !co2 && !ch4){
-				return "Escolha no minimo 1 ferramenta de monitoramento";
-			}
-		}
+		try {
+			List<Unidade> unities = this.unidadeDAO.getUns();
+			Collections.sort(unities, new OrderUnidadeByDistance(unities.get(0), abcissa, ordenada));
 			
-		if(un == null) {
-			return "nenhuma unidade disponivel com a configuração desejada";
-		}else {
-			UnidadeDTO unDTO = new UnidadeDTO(un.getId(), un.getAbcissa(), un.getOrdenada());
-			return "Unidade: " + unDTO.getId() + " (id), atualizou sua localização\n"
-					+ "Para y: " + unDTO.getAbcissa() + " x: " + unDTO.getOrdenada();
-		}
+
+			for(Unidade unidade : unities) {
+				if(vadilarUnidade(video, termometro, co2, ch4, unidade)) {
+					un = unidade;
+					un.setAbcissa(abcissa);
+					un.setOrdenada(ordenada);
+					this.unidadeDAO.atualizar(un);
+					break;
+				}else if(!video && !termometro && !co2 && !ch4){
+					return "Escolha no minimo 1 ferramenta de monitoramento";
+				}
+			}
+				
+			if(un == null) {
+				return "nenhuma unidade disponivel com a configuração desejada";
+			}else {
+				UnidadeDTO unDTO = new UnidadeDTO(un.getId(), un.getAbcissa(), un.getOrdenada());
+				return "Unidade: " + unDTO.getId() + " (id), atualizou sua localização\n"
+						+ "Para y: " + unDTO.getAbcissa() + " x: " + unDTO.getOrdenada();
+			}
+		}catch(IndexOutOfBoundsException e) {
+		}catch(Exception e) {}
+		
+		return "";
 	}
-	
 }
