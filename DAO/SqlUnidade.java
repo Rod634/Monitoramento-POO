@@ -26,6 +26,8 @@ public class SqlUnidade implements UnidadeDAO{
 	
 	private static String UPDATE_SQL = "UPDATE UNIDADES SET ABCISSA = ?, ORDENADA = ? WHERE ID = ?";
 	
+	private static String GetAll = "select * from UNIDADES";
+	
 	public SqlUnidade() throws SQLException {
 		DriverManager.registerDriver(new org.h2.Driver());
 	}
@@ -64,7 +66,8 @@ public class SqlUnidade implements UnidadeDAO{
 		List<Unidade> uns = new ArrayList<Unidade>();
 		
 		Statement stmt = this.getConnection().createStatement();
-		boolean retorno = stmt.execute("select * from UNIDADES");
+		boolean retorno = stmt.execute(GetAll);
+		
 		if(retorno == true) {
 			ResultSet resultado = stmt.getResultSet();
 			while(resultado.next()) {
@@ -86,6 +89,7 @@ public class SqlUnidade implements UnidadeDAO{
 				}
 			}
 		}
+		
 		return uns;
 	}
 

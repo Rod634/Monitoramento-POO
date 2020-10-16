@@ -13,16 +13,16 @@ public class Monitoramento {
 	
 	private UnidadeDAO unidadeDAO;
 
-	public Monitoramento() throws SQLException {
-		unidadeDAO = new MemUnidade();
+	public Monitoramento(boolean mem) throws SQLException, ClassNotFoundException {
+		unidadeDAO = mem == true ? new MemUnidade() : new SqlUnidade();
 	}
 	
-	public void addUnidadeEuclidiana(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
+	public void addUnidadeEuclidiana(int id, double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
 		UnidadeEuclidiana ue = new UnidadeEuclidiana(id, abcissa, ordenada, video, termometro, co2, ch4);
 		this.addUn(ue);
 	}
 	
-	public void addUnidadeManhattan(int id, float abcissa, float ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
+	public void addUnidadeManhattan(int id, double abcissa, double ordenada, boolean video, boolean termometro, boolean co2, boolean ch4) throws Exception {
 		UnidadeManhattan um = new UnidadeManhattan(id, abcissa, ordenada, video, termometro, co2, ch4);
 		this.addUn(um);
 	}
