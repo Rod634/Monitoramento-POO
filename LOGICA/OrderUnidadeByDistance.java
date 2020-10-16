@@ -16,7 +16,7 @@ public class OrderUnidadeByDistance implements Comparator<Unidade>{
 	}
 	
 	protected double getAbcissa() {
-		return abcissa;
+		return this.abcissa;
 	}
 
 	protected void setAbcissa(double abcissa) {
@@ -24,7 +24,7 @@ public class OrderUnidadeByDistance implements Comparator<Unidade>{
 	}
 
 	protected double getOrdenada() {
-		return ordenada;
+		return this.ordenada;
 	}
 
 	protected void setOrdenada(double ordenada) {
@@ -32,7 +32,7 @@ public class OrderUnidadeByDistance implements Comparator<Unidade>{
 	}
 
 	protected Unidade getUn() {
-		return un;
+		return this.un;
 	}
 
 	protected void setUn(Unidade un) {
@@ -45,9 +45,9 @@ public class OrderUnidadeByDistance implements Comparator<Unidade>{
 	
 	@Override
 	public int compare(Unidade un1, Unidade un2) {
-		if(un1.distancia(abcissa, ordenada) > un2.distancia(abcissa, ordenada)) {
+		if(un1.distancia(this.abcissa, this.ordenada) > un2.distancia(this.abcissa, this.ordenada)) {
 			return 1;
-		}else if(un1.distancia(abcissa, ordenada) < un2.distancia(abcissa, ordenada)) {
+		}else if(un1.distancia(this.abcissa, this.ordenada) < un2.distancia(this.abcissa, this.ordenada)) {
 			return -1;
 		}else {
 			return 0;

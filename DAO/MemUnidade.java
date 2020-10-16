@@ -47,7 +47,9 @@ public class MemUnidade implements UnidadeDAO{
 			}
 		}
 	}
-
 	
+	public void deletar(Unidade un) {
+		
+	}
 		
 }
